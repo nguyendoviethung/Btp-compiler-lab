@@ -19,6 +19,7 @@ Token *lookAhead;
 extern Type* intType;
 extern Type* charType;
 extern SymTab* symtab;
+void compileProgram(void);
 
 void scan(void) {
   Token* tmp = currentToken;
@@ -834,16 +835,21 @@ int compile(char *fileName) {
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
-        printf("Usage: parser <file>\n");
+        printf("Usage: parser <input file>\n");
         return 1;
     }
 
-    if (openInputStream(argv[1]) != IO_SUCCESS) {
+    if (openInputStream(argv[1]) == IO_ERROR) {
         printf("Cannot open %s\n", argv[1]);
         return 1;
     }
 
-    parseProgram();   //
+   initCharCodes();
+initKeywords();
+getValidToken();
+
+
+    compileProgram();
 
     closeInputStream();
     return 0;
