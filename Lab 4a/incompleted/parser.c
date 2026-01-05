@@ -362,7 +362,8 @@ void compileParam(void) {
 
   eat(TK_IDENT);
   checkFreshIdent(currentToken->string);
-  param = createParameterObject(currentToken->string, paramKind, symtab->currentScope->owner);
+  param = createParameterObject(currentToken->string, paramKind);
+
   eat(SB_COLON);
   type = compileBasicType();
   param->paramAttrs->type = type;
@@ -689,6 +690,7 @@ Type* compileExpression3(void) {
   default:
     error(ERR_INVALID_EXPRESSION, lookAhead->lineNo, lookAhead->colNo);
   }
+  return NULL;
 }
 
 Type* compileTerm(void) {
